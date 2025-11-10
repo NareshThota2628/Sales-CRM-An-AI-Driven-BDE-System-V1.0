@@ -1,29 +1,11 @@
 // Mock data sources for export functionality
 export const mockData = {
-    Leads: [
-      { id: 'lead-1', name: 'John Doe', company: 'Innovatech', status: 'Qualified', aiScore: 'Hot', source: 'Webinar' },
-      { id: 'lead-2', name: 'Jane Smith', company: 'Solutions Inc.', status: 'New', aiScore: 'Hot', source: 'Referral' },
-    ],
-    Companies: [
-      { id: 'comp-1', name: 'Innovatech', health: 'Healthy', arr: 50000, owner: 'Amélie Laurent' },
-      { id: 'comp-2', name: 'Quantum Leap', health: 'Healthy', arr: 120000, owner: 'Amélie Laurent' },
-    ],
-    Contacts: [
-      { name: 'John Doe', title: 'VP of Engineering', company: 'Innovatech' },
-      { name: 'Sarah Jenkins', title: 'Project Manager', company: 'Innovatech' },
-    ],
-    Deals: [
-        { name: 'Initial Enterprise License', stage: 'Closed Won', amount: 50000, closeDate: '2023-08-15' },
-        { name: 'Analytics Pro Add-on', stage: 'In Progress', amount: 15000, closeDate: '2024-03-20' },
-    ],
-    Activities: [
-        { type: 'note', content: 'Customer is very happy with the platform.', author: 'Amélie Laurent' },
-        { type: 'call', content: 'Q4 check-in call.', author: 'Amélie Laurent' },
-    ],
-    Tasks: [
-        { id: 'task-1', title: 'Identify 50 new prospects', priority: 'High Priority', status: 'todo' },
-        { id: 'task-5', title: 'Qualify 20 inbound leads', priority: 'High Priority', status: 'inprogress' },
-    ]
+    Leads: [],
+    Companies: [],
+    Contacts: [],
+    Deals: [],
+    Activities: [],
+    Tasks: []
 };
 
 

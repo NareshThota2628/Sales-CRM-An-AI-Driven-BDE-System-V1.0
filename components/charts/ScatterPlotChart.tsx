@@ -12,6 +12,9 @@ interface ScatterPlotChartProps {
 }
 
 const ScatterPlotChart: React.FC<ScatterPlotChartProps> = ({ data }) => {
+  if (!data || data.length === 0) {
+    return <div className="flex items-center justify-center h-full text-slate-500">No data to display chart</div>;
+  }
   const chartHeight = 288;
   const chartWidth = 600;
   const padding = { top: 20, right: 20, bottom: 40, left: 40 };

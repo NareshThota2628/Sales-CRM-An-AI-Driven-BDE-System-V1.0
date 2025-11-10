@@ -11,6 +11,9 @@ interface RadialBarChartProps {
 }
 
 const RadialBarChart: React.FC<RadialBarChartProps> = ({ data }) => {
+    if (!data || data.length === 0) {
+        return <div className="flex items-center justify-center h-full text-slate-500">No data to display chart</div>;
+    }
     const size = 240;
     const strokeWidth = 20;
     const center = size / 2;

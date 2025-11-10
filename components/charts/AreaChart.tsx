@@ -10,6 +10,9 @@ interface AreaChartProps {
 }
 
 const AreaChart: React.FC<AreaChartProps> = ({ data }) => {
+  if (!data || data.length < 2) {
+    return <div className="flex items-center justify-center h-full text-slate-500">Not enough data to display chart</div>;
+  }
   const svgRef = useRef<SVGSVGElement>(null);
   const [tooltip, setTooltip] = useState<{
     visible: boolean;

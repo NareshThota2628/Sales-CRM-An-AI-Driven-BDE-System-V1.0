@@ -16,7 +16,8 @@ export default defineConfig(({ mode }) => {
       },
       resolve: {
         alias: {
-          '@': path.resolve(__dirname, '.'),
+          // FIX: Replaced `path.resolve(__dirname, '.')` with `path.resolve('.')` because `__dirname` is not available in ES modules by default. This change ensures the '@' alias correctly points to the project root.
+          '@': path.resolve('.'),
         }
       }
     };

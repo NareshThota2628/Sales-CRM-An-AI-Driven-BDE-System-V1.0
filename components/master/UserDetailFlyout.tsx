@@ -12,11 +12,7 @@ interface UserDetailFlyoutProps {
     onClose: () => void;
 }
 
-const mockActivity = [
-    { text: 'Closed deal with Quantum Leap ($120k ARR)', time: '2d ago' },
-    { text: 'Converted 5 new leads from "Hot" to "Qualified"', time: '3d ago' },
-    { text: 'Logged 12 calls and 25 emails', time: 'This week' },
-];
+const mockActivity: { text: string; time: string }[] = [];
 
 const UserDetailFlyout: React.FC<UserDetailFlyoutProps> = ({ user, teamAverage, onClose }) => {
     if (!user) return null;

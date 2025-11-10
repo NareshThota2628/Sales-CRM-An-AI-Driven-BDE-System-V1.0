@@ -28,11 +28,7 @@ interface AiInsight {
 }
 
 // Mock Data
-const aiInsightsData: AiInsight[] = [
-    { id: 'ai-1', type: 'growth', title: 'Upsell Opportunity', description: 'Innovatech has high usage of your core product. Pitch them the Analytics Pro Add-on.', companyId: 'comp-1', companyName: 'Innovatech' },
-    { id: 'ai-2', type: 'risk', title: 'Churn Risk Detected', description: 'Key contact at Synergy LLC has left the company. Establish a new champion.', companyId: 'comp-4', companyName: 'Synergy LLC' },
-    { id: 'ai-3', type: 'growth', title: 'Expansion Signal', description: 'NextGen AI just secured a new round of funding. They might have budget for new projects.', companyId: 'comp-5', companyName: 'NextGen AI' },
-];
+const aiInsightsData: AiInsight[] = [];
 
 
 // Style Mappings & Components

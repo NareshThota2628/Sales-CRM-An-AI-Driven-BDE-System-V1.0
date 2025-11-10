@@ -6,6 +6,7 @@ import SparklesIcon from '../../components/icons/SparklesIcon';
 import SpinnerIcon from '../../components/icons/SpinnerIcon';
 import ClipboardCopyIcon from '../../components/icons/ClipboardCopyIcon';
 import SendIcon from '../../components/icons/SendIcon';
+import { GoogleGenAI } from '@google/genai';
 
 const tones = ['Professional', 'Casual', 'Persuasive', 'Friendly', 'Direct'];
 
@@ -20,20 +21,35 @@ const EmailComposerPage: React.FC = () => {
     const [generatedEmail, setGeneratedEmail] = useState<{ subject: string; body: string } | null>(null);
     const [copySuccess, setCopySuccess] = useState('');
 
-    const handleGenerate = (e: React.MouseEvent) => {
+    const handleGenerate = async (e: React.MouseEvent) => {
         e.preventDefault();
         if (!prompt) return;
 
         setIsGenerating(true);
         setGeneratedEmail(null);
 
-        setTimeout(() => {
-            setGeneratedEmail({
-                subject: `Following up from ${lead?.company || 'our company'}`,
-                body: `Hi ${lead?.name.split(' ')[0] || 'there'},\n\nHope you're having a great week.\n\nI'm writing to follow up on our recent conversation about our services. I wanted to see if you had any further questions or if there's anything else I can provide to help with your evaluation.\n\nWe're confident that our solution can bring significant value to ${lead?.company || 'your team'}.\n\nBest regards,\n\nAmélie Laurent`,
+        try {
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            const fullPrompt = `Based on the following prompt, generate a professional email. Use a ${tone} tone. The prompt is: "${prompt}". Return ONLY a valid JSON object with "subject" and "body" keys. The body should be a single string with newline characters (\\n) for paragraphs.`;
+            
+            const response = await ai.models.generateContent({
+                model: 'gemini-2.5-flash',
+                contents: fullPrompt,
+                config: {
+                    responseMimeType: 'application/json',
+                }
             });
+            
+            const jsonText = response.text.replace(/```json\n?|\n?```/g, '');
+            const emailData = JSON.parse(jsonText);
+            setGeneratedEmail(emailData);
+
+        } catch (error) {
+            console.error("Email generation failed:", error);
+            setGeneratedEmail({ subject: "Error", body: "Failed to generate email content. Please try again." });
+        } finally {
             setIsGenerating(false);
-        }, 1500);
+        }
     };
     
     const handleCopyToClipboard = () => {

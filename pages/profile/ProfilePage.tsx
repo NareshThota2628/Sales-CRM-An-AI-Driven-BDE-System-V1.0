@@ -21,23 +21,18 @@ const ProfilePage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<Tab>('profile');
     
     // State for new features
-    const [avatar, setAvatar] = useState('https://i.pravatar.cc/150?img=1');
-    const [phone, setPhone] = useState('+1 (555) 123-4567');
-    const [linkedin, setLinkedin] = useState('linkedin.com/in/amelie-laurent');
-    const [signature, setSignature] = useState(
-`Best regards,
-
-{{name}}
-{{title}} | Sales CRM
-{{phone}}
-{{email}}`
-    );
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [avatar, setAvatar] = useState('https://i.pravatar.cc/150');
+    const [phone, setPhone] = useState('');
+    const [linkedin, setLinkedin] = useState('');
+    const [signature, setSignature] = useState('');
 
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const profileCompletion = useMemo(() => {
         let score = 0;
-        if (avatar !== 'https://i.pravatar.cc/150?img=1') score += 25;
+        if (avatar !== 'https://i.pravatar.cc/150') score += 25;
         if (phone) score += 25;
         if (linkedin) score += 25;
         if (signature) score += 25;
@@ -106,7 +101,7 @@ const ProfilePage: React.FC = () => {
                             <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" accept="image/*" />
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-slate-800">Amélie Laurent</h2>
+                            <h2 className="text-2xl font-bold text-slate-800">{name || 'Your Name'}</h2>
                             <p className="text-slate-500">Business Development Executive</p>
                         </div>
                     </div>
@@ -117,9 +112,9 @@ const ProfilePage: React.FC = () => {
                         </div>
                         <ProgressBar value={profileCompletion} />
                         <div className="grid grid-cols-3 gap-4 mt-4 text-center">
-                            <div><p className="text-sm text-slate-500">Closed ARR (QTD)</p><p className="font-bold text-lg text-slate-800">$120.5k</p></div>
-                            <div><p className="text-sm text-slate-500">Conversion Rate</p><p className="font-bold text-lg text-slate-800">22%</p></div>
-                            <div><p className="text-sm text-slate-500">Active Leads</p><p className="font-bold text-lg text-slate-800">42</p></div>
+                            <div><p className="text-sm text-slate-500">Closed ARR (QTD)</p><p className="font-bold text-lg text-slate-800">$0</p></div>
+                            <div><p className="text-sm text-slate-500">Conversion Rate</p><p className="font-bold text-lg text-slate-800">0%</p></div>
+                            <div><p className="text-sm text-slate-500">Active Leads</p><p className="font-bold text-lg text-slate-800">0</p></div>
                         </div>
                     </div>
                 </div>
@@ -139,8 +134,8 @@ const ProfilePage: React.FC = () => {
                     <form onSubmit={handleSaveChanges} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="bg-white rounded-2xl shadow-md p-8 space-y-5">
                             <h3 className="text-xl font-bold text-slate-800 mb-2">Personal Information</h3>
-                            <Input label="Full Name" id="full-name" type="text" defaultValue="Amélie Laurent" />
-                            <Input label="Email Address" id="email" type="email" defaultValue="amelielaurent7622@gmail.com" disabled />
+                            <Input label="Full Name" id="full-name" type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Amélie Laurent" />
+                            <Input label="Email Address" id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="amelielaurent7622@gmail.com" />
                             <Input label="Phone Number" id="phone" type="tel" value={phone} onChange={e => setPhone(e.target.value)} />
                             <Input label="LinkedIn Profile URL" id="linkedin" type="text" value={linkedin} onChange={e => setLinkedin(e.target.value)} icon={<LinkedinIcon className="w-5 h-5 text-gray-400" />} />
                              <div className="pt-2 text-right">
@@ -176,10 +171,10 @@ const ProfilePage: React.FC = () => {
                             <div className="p-4 border border-dashed border-slate-300 rounded-lg min-h-[200px]">
                                 <p className="whitespace-pre-wrap text-sm text-slate-700">
                                     {signature
-                                        .replace('{{name}}', 'Amélie Laurent')
+                                        .replace('{{name}}', name || 'Your Name')
                                         .replace('{{title}}', 'Business Development Executive')
                                         .replace('{{phone}}', phone)
-                                        .replace('{{email}}', 'amelielaurent7622@gmail.com')
+                                        .replace('{{email}}', email || 'your.email@company.com')
                                     }
                                 </p>
                             </div>

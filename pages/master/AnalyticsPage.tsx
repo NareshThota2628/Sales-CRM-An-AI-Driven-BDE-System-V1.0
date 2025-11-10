@@ -5,44 +5,19 @@ import ScatterPlotChart from '../../components/charts/ScatterPlotChart';
 import BarLineChart from '../../components/charts/BarLineChart';
 
 // Mock Data
-const funnelData = [
-  { stage: 'New', value: 1240 },
-  { stage: 'Contacted', value: 980 },
-  { stage: 'Qualified', value: 450 },
-  { stage: 'Demo', value: 310 },
-  { stage: 'Converted', value: 230 },
-];
+const funnelData: { stage: string; value: number }[] = [];
 
-const revenueData = [
-  { name: 'Sep', monthly: 380, cumulative: 380 },
-  { name: 'Oct', monthly: 420, cumulative: 800 },
-  { name: 'Nov', monthly: 400, cumulative: 1200 },
-  { name: 'Dec', monthly: 480, cumulative: 1680 },
-  { name: 'Jan', monthly: 510, cumulative: 2190 },
-  { name: 'Feb', monthly: 550, cumulative: 2740 },
-];
+const revenueData: { name: string; monthly: number; cumulative: number }[] = [];
 
-const leadSourceData = [
-    { name: 'Webinar', value: 40, color: '#4F46E5' },
-    { name: 'Referral', value: 30, color: '#10B981' },
-    { name: 'Website', value: 20, color: '#F59E0B' },
-    { name: 'Cold Call', value: 10, color: '#EF4444' },
-];
+const leadSourceData: { name: string; value: number; color: string }[] = [];
 
-const scatterData = [
-    { name: 'Amélie', conversionRate: 22, closedARR: 120, leads: 125 },
-    { name: 'Benoît', conversionRate: 18, closedARR: 85, leads: 98 },
-    { name: 'Chloé', conversionRate: 25, closedARR: 152, leads: 150 },
-    { name: 'David', conversionRate: 15, closedARR: 95, leads: 110 },
-    { name: 'Elise', conversionRate: 12, closedARR: 62, leads: 82 },
-    { name: 'Hugo', conversionRate: 28, closedARR: 110, leads: 95 },
-];
+const scatterData: { name: string; conversionRate: number; closedARR: number; leads: number }[] = [];
 
 const aiEfficacyData = {
     labels: ['Hot', 'Warm', 'Cold'],
     datasets: [{
         label: 'Conversion Rate',
-        data: [45, 18, 5],
+        data: [],
         backgroundColor: ['#EF4444', '#F59E0B', '#3B82F6'],
     }],
 };

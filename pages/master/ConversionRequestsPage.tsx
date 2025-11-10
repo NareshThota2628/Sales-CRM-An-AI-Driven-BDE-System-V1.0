@@ -5,11 +5,17 @@ import CheckCircle2Icon from '../../components/icons/CheckCircle2Icon';
 import XCircleIcon from '../../components/icons/XCircleIcon';
 import ClockIcon from '../../components/icons/ClockIcon';
 
-const initialRequests = [
-  { id: 1, bdeName: 'David Garcia', bdeAvatar: 'https://i.pravatar.cc/150?img=4', leadName: 'Solutions Inc.', companyName: 'Solutions Inc.', requestDate: '1 day ago', justification: 'Lead has confirmed budget and authority. They are looking to make a decision this quarter and have scheduled a technical demo. Strong fit for our enterprise package.', aiConfidence: 92, aiReasoning: 'High engagement score, positive sentiment in email communications, and matches ideal customer profile.' },
-  { id: 2, bdeName: 'Amélie Laurent', bdeAvatar: 'https://i.pravatar.cc/150?img=1', leadName: 'Innovatech', companyName: 'Innovatech', requestDate: '3 days ago', justification: 'Innovatech is evaluating competitors, but our feature set aligns perfectly with their stated needs. The main contact, John Doe, is the key decision-maker.', aiConfidence: 85, aiReasoning: 'Lead matches 4/5 key buying signals. Some competitor risk detected.' },
-  { id: 3, bdeName: 'François Lambert', bdeAvatar: 'https://i.pravatar.cc/150?img=6', leadName: 'FutureGadget', companyName: 'FutureGadget', requestDate: '5 days ago', justification: 'Early-stage interest but the lead is very enthusiastic. They have a clear pain point we can solve, but budget conversations have not yet happened.', aiConfidence: 68, aiReasoning: 'Positive intent but lacking budget confirmation and timeline. Qualifies as a strong prospect but conversion readiness is moderate.' },
-];
+const initialRequests: {
+    id: number;
+    bdeName: string;
+    bdeAvatar: string;
+    leadName: string;
+    companyName: string;
+    requestDate: string;
+    justification: string;
+    aiConfidence: number;
+    aiReasoning: string;
+}[] = [];
 
 const KpiCard: React.FC<{ title: string; value: string; }> = ({ title, value }) => (
     <div className="bg-white p-6 rounded-2xl shadow-sm">

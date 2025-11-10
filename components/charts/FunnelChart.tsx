@@ -10,6 +10,9 @@ interface FunnelChartProps {
 }
 
 const FunnelChart: React.FC<FunnelChartProps> = ({ data }) => {
+  if (!data || data.length === 0) {
+    return <div className="flex items-center justify-center h-full text-slate-500">No data to display chart</div>;
+  }
   const total = data[0].value;
   const colors = ['#4338CA', '#4F46E5', '#6366F1', '#818CF8', '#A5B4FC'];
 

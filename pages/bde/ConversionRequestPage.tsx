@@ -6,15 +6,7 @@ import SendIcon from '../../components/icons/SendIcon';
 import FilePlusIcon from '../../components/icons/FilePlusIcon';
 
 // Mock data (in a real app, this would come from a context or API)
-const leadsData = [
-  { id: 'lead-1', name: 'John Doe', company: 'Innovatech' },
-  { id: 'lead-2', name: 'Jane Smith', company: 'Solutions Inc.' },
-  { id: 'lead-3', name: 'Sam Wilson', company: 'DataCorp' },
-  { id: 'lead-4', name: 'Patricia Williams', company: 'FutureGadget' },
-  { id: 'lead-5', name: 'Michael Brown', company: 'Synergy LLC' },
-  { id: 'lead-6', name: 'Linda Davis', company: 'Quantum Leap' },
-  { id: 'lead-7', name: 'James Miller', company: 'NextGen AI' },
-];
+const leadsData: { id: string; name: string; company: string; }[] = [];
 
 const ConversionRequestPage: React.FC = () => {
     const { leadId } = useParams<{ leadId: string }>();

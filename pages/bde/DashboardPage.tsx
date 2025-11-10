@@ -92,18 +92,48 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, onDragStart, isDraggin
     );
 };
 
-const KanbanColumn: React.FC<{ title: string; status: Status; tasks: Task[]; allowAddingTasks: boolean; onAddTask: (status: Status) => void; onDragOver: (e: React.DragEvent<HTMLDivElement>) => void; onDrop: (e: React.DragEvent<HTMLDivElement>, status: Status) => void; onDragStart: (e: React.DragEvent<HTMLDivElement>, task: Task) => void; draggedTask: Task | null; onOpenComments: (task: Task) => void; }> = ({ title, status, tasks, allowAddingTasks, onAddTask, onDragOver, onDrop, onDragStart, draggedTask, onOpenComments }) => {
+interface KanbanColumnProps {
+    title: string;
+    status: Status;
+    tasks: Task[];
+    allowAddingTasks: boolean;
+    onAddTask: (status: Status) => void;
+    onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+    onDrop: (e: React.DragEvent<HTMLDivElement>, status: Status) => void;
+    onDragStart: (e: React.DragEvent<HTMLDivElement>, task: Task) => void;
+    draggedTask: Task | null;
+    onOpenComments: (task: Task) => void;
+    onDragEnter: (e: React.DragEvent<HTMLDivElement>) => void;
+    onDragLeave: (e: React.DragEvent<HTMLDivElement>) => void;
+    isBeingDraggedOver: boolean;
+}
+
+const KanbanColumn: React.FC<KanbanColumnProps> = ({ title, status, tasks, allowAddingTasks, onAddTask, onDragOver, onDrop, onDragStart, draggedTask, onOpenComments, onDragEnter, onDragLeave, isBeingDraggedOver }) => {
     const columnStyles = {
         todo: { color: '#4A3AFF', bg: 'bg-[#4A3AFF]', button: 'bg-[#4A3AFF] hover:bg-[#3c2dd1]' },
         inprogress: { color: '#FF784A', bg: 'bg-[#FF784A]', button: 'bg-[#FF784A] hover:bg-[#e86a3d]' },
         completed: { color: '#32A888', bg: 'bg-[#32A888]', button: 'bg-[#32A888] hover:bg-[#2b9074]' },
     };
 
+    const statusOrder: Record<Status, number> = { todo: 1, inprogress: 2, completed: 3 };
+    const isValidDrop = draggedTask ? statusOrder[status] >= statusOrder[draggedTask.status] : false;
+
+    let dropzoneClass = "bg-[#F7F8FA] rounded-xl p-4 min-h-[400px] transition-all duration-200 border-2 border-transparent";
+    if (isBeingDraggedOver) {
+        if (isValidDrop) {
+            dropzoneClass += " border-dashed border-indigo-400 bg-indigo-50/50";
+        } else {
+            dropzoneClass += " border-dashed border-red-400 bg-red-50/50";
+        }
+    }
+
     return (
         <div 
-            className="bg-[#F7F8FA] rounded-xl p-4 min-h-[400px] transition-colors duration-300"
+            className={dropzoneClass}
             onDragOver={onDragOver}
             onDrop={(e) => onDrop(e, status)}
+            onDragEnter={onDragEnter}
+            onDragLeave={onDragLeave}
         >
             <div className={`flex justify-between items-center mb-4`}>
                 <div className="flex items-center gap-2">
@@ -224,24 +254,17 @@ const BDE_CURRENT_USER_NAME = 'Amélie Laurent';
 
 
 const initialProjectData = {
-    name: 'BDE Project Pipeline',
-    label: 'Internal Project',
-    members: [
-        { id: '1', name: 'Amélie Laurent', avatar: assigneeAvatars['1'], role: 'Project Lead' },
-        { id: '2', name: 'Benoît Dubois', avatar: assigneeAvatars['2'], role: 'Manager' },
-        { id: '4', name: 'David Garcia', avatar: assigneeAvatars['4'], role: 'Contributor' },
-    ],
-    history: [
-        { user: 'Amélie Laurent', action: 'moved "Identify 50 new prospects" to In Progress', time: '2h ago' },
-        { user: 'Benoît Dubois', action: 'added a new task: "Finalize Q3 targets"', time: '1d ago' },
-        { user: 'David Garcia', action: 'completed "Follow up with conference leads"', time: '2d ago' },
-    ]
+    name: '',
+    label: '',
+    members: [],
+    history: []
 };
 
 const BdeDashboardPage: React.FC = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [activeView, setActiveView] = useState('Column View');
     const [draggedTask, setDraggedTask] = useState<Task | null>(null);
+    const [draggedOverStatus, setDraggedOverStatus] = useState<Status | null>(null);
     const [showFilterMenu, setShowFilterMenu] = useState(false);
     const [showSortMenu, setShowSortMenu] = useState(false);
     const [filterPriority, setFilterPriority] = useState<Priority | 'All'>('All');
@@ -336,11 +359,23 @@ const BdeDashboardPage: React.FC = () => {
         e.preventDefault();
     };
 
+    const handleDragEnter = (e: React.DragEvent<HTMLDivElement>, status: Status) => {
+        e.preventDefault();
+        setDraggedOverStatus(status);
+    };
+
+    const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        setDraggedOverStatus(null);
+    };
+
+
     const handleDrop = async (e: React.DragEvent<HTMLDivElement>, targetStatus: Status) => {
         e.preventDefault();
         const taskId = e.dataTransfer.getData('taskId');
         const taskToMove = tasks.find(t => t.id === taskId);
         setDraggedTask(null);
+        setDraggedOverStatus(null);
 
         if (!taskToMove) return;
 
@@ -575,9 +610,51 @@ const BdeDashboardPage: React.FC = () => {
                 <main>
                     {activeView === 'Column View' && (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <KanbanColumn title="To Do" status="todo" tasks={getTasksForColumn('todo')} allowAddingTasks={false} onAddTask={handleAddTask} onDragOver={handleDragOver} onDrop={handleDrop} onDragStart={handleDragStart} draggedTask={draggedTask} onOpenComments={handleOpenComments} />
-                            <KanbanColumn title="In Progress" status="inprogress" tasks={getTasksForColumn('inprogress')} allowAddingTasks={false} onAddTask={handleAddTask} onDragOver={handleDragOver} onDrop={handleDrop} onDragStart={handleDragStart} draggedTask={draggedTask} onOpenComments={handleOpenComments} />
-                            <KanbanColumn title="Completed" status="completed" tasks={getTasksForColumn('completed')} allowAddingTasks={false} onAddTask={handleAddTask} onDragOver={handleDragOver} onDrop={handleDrop} onDragStart={handleDragStart} draggedTask={draggedTask} onOpenComments={handleOpenComments} />
+                            <KanbanColumn 
+                                title="To Do" 
+                                status="todo" 
+                                tasks={getTasksForColumn('todo')} 
+                                allowAddingTasks={false} 
+                                onAddTask={handleAddTask} 
+                                onDragOver={handleDragOver} 
+                                onDrop={handleDrop} 
+                                onDragStart={handleDragStart} 
+                                draggedTask={draggedTask} 
+                                onOpenComments={handleOpenComments} 
+                                onDragEnter={(e) => handleDragEnter(e, 'todo')}
+                                onDragLeave={handleDragLeave}
+                                isBeingDraggedOver={draggedOverStatus === 'todo'}
+                            />
+                            <KanbanColumn 
+                                title="In Progress" 
+                                status="inprogress" 
+                                tasks={getTasksForColumn('inprogress')} 
+                                allowAddingTasks={false} 
+                                onAddTask={handleAddTask} 
+                                onDragOver={handleDragOver} 
+                                onDrop={handleDrop} 
+                                onDragStart={handleDragStart} 
+                                draggedTask={draggedTask} 
+                                onOpenComments={handleOpenComments}
+                                onDragEnter={(e) => handleDragEnter(e, 'inprogress')}
+                                onDragLeave={handleDragLeave}
+                                isBeingDraggedOver={draggedOverStatus === 'inprogress'}
+                            />
+                            <KanbanColumn 
+                                title="Completed" 
+                                status="completed" 
+                                tasks={getTasksForColumn('completed')} 
+                                allowAddingTasks={false} 
+                                onAddTask={handleAddTask} 
+                                onDragOver={handleDragOver} 
+                                onDrop={handleDrop} 
+                                onDragStart={handleDragStart} 
+                                draggedTask={draggedTask} 
+                                onOpenComments={handleOpenComments}
+                                onDragEnter={(e) => handleDragEnter(e, 'completed')}
+                                onDragLeave={handleDragLeave}
+                                isBeingDraggedOver={draggedOverStatus === 'completed'}
+                            />
                         </div>
                     )}
                     {activeView === 'Grid View' && <GridView tasks={filteredAndSortedTasks} onOpenComments={handleOpenComments} />}

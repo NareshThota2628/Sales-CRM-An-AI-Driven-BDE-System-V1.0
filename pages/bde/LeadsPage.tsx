@@ -43,20 +43,9 @@ interface Lead {
 }
 
 // Mock Data
-const leadsData: Lead[] = [
-  { id: 'lead-1', name: 'John Doe', email: 'john.d@innovatech.com', phone: '555-1234', designation: 'VP of Engineering', linkedin: 'linkedin.com/in/johndoe', location: 'San Francisco, CA', company: 'Innovatech', companyLogo: 'https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600', status: 'Qualified', aiScore: 'Hot', source: 'Webinar', lastContact: '2 hours ago', assignedTo: 'usr-1' },
-  { id: 'lead-2', name: 'Jane Smith', email: 'jane.s@solutions.com', phone: '555-5678', designation: 'Product Manager', linkedin: 'linkedin.com/in/janesmith', location: 'New York, NY', company: 'Solutions Inc.', companyLogo: 'https://tailwindui.com/img/logos/mark.svg?color=red&shade=500', status: 'New', aiScore: 'Hot', source: 'Referral', lastContact: '1 day ago', assignedTo: 'usr-2' },
-  { id: 'lead-3', name: 'Sam Wilson', email: 'sam.w@datacorp.co', phone: '555-8765', designation: 'Data Scientist', linkedin: 'linkedin.com/in/samwilson', location: 'Austin, TX', company: 'DataCorp', companyLogo: 'https://tailwindui.com/img/logos/mark.svg?color=green&shade=500', status: 'Contacted', aiScore: 'Warm', source: 'Website', lastContact: '3 days ago', assignedTo: 'usr-1' },
-  { id: 'lead-4', name: 'Patricia Williams', email: 'pat.w@futuregadget.io', phone: '555-4321', designation: 'CEO', linkedin: 'linkedin.com/in/patriciaw', location: 'Boston, MA', company: 'FutureGadget', companyLogo: 'https://tailwindui.com/img/logos/mark.svg?color=yellow&shade=500', status: 'New', aiScore: 'Cold', source: 'Cold Call', lastContact: '1 week ago', assignedTo: 'usr-3' },
-  { id: 'lead-5', name: 'Michael Brown', email: 'm.brown@synergy.llc', phone: '555-3456', designation: 'Operations Manager', linkedin: 'linkedin.com/in/michaelbrown', location: 'Chicago, IL', company: 'Synergy LLC', companyLogo: 'https://tailwindui.com/img/logos/mark.svg?color=blue&shade=500', status: 'Unqualified', aiScore: 'Cold', source: 'Advertisement', lastContact: '2 weeks ago', assignedTo: 'usr-2' },
-  { id: 'lead-6', name: 'Linda Davis', email: 'linda.d@quantum.ai', phone: '555-6789', designation: 'CTO', linkedin: 'linkedin.com/in/lindadavis', location: 'San Francisco, CA', company: 'Quantum Leap', companyLogo: 'https://tailwindui.com/img/logos/mark.svg?color=purple&shade=500', status: 'Closed', aiScore: 'Hot', source: 'Referral', lastContact: '1 month ago', assignedTo: 'usr-1' },
-  { id: 'lead-7', name: 'James Miller', email: 'j.miller@nextgen.ai', phone: '555-9876', designation: 'Lead Developer', linkedin: 'linkedin.com/in/jamesmiller', location: 'Seattle, WA', company: 'NextGen AI', companyLogo: 'https://tailwindui.com/img/logos/mark.svg?color=pink&shade=500', status: 'Proposal', aiScore: 'Warm', source: 'Webinar', lastContact: '5 days ago', assignedTo: 'usr-3' },
-];
+const leadsData: Lead[] = [];
 
-const assigneeAvatars: { [key: string]: string } = {
-  'usr-1': 'https://i.pravatar.cc/150?img=1', 'usr-2': 'https://i.pravatar.cc/150?img=2',
-  'usr-3': 'https://i.pravatar.cc/150?img=3', 'usr-4': 'https://i.pravatar.cc/150?img=4',
-};
+const assigneeAvatars: { [key: string]: string } = {};
 
 // Style Mappings
 const statusStyles: Record<LeadStatus, string> = {
@@ -205,10 +194,10 @@ const LeadsPage: React.FC = () => {
             </header>
 
             <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <KpiCard title="New Leads" value="42" change="+15% this week" icon={<ZapIcon className="w-5 h-5 text-indigo-600" />} color="bg-indigo-100" delay={100} />
-                <KpiCard title="Hot Leads (AI)" value="12" change="+3 since yesterday" icon={<FireIcon className="w-5 h-5 text-red-600" />} color="bg-red-100" delay={200} />
-                <KpiCard title="Conversion Rate" value="24.5%" change="-1.2% this month" icon={<TrendingUpIcon className="w-5 h-5 text-green-600" />} color="bg-green-100" delay={300} />
-                <KpiCard title="Avg. Response" value="3.2h" change="+0.5h from last week" icon={<ClockIcon className="w-5 h-5 text-yellow-600" />} color="bg-yellow-100" delay={400} />
+                <KpiCard title="New Leads" value="0" change="" icon={<ZapIcon className="w-5 h-5 text-indigo-600" />} color="bg-indigo-100" delay={100} />
+                <KpiCard title="Hot Leads (AI)" value="0" change="" icon={<FireIcon className="w-5 h-5 text-red-600" />} color="bg-red-100" delay={200} />
+                <KpiCard title="Conversion Rate" value="0%" change="" icon={<TrendingUpIcon className="w-5 h-5 text-green-600" />} color="bg-green-100" delay={300} />
+                <KpiCard title="Avg. Response" value="-" change="" icon={<ClockIcon className="w-5 h-5 text-yellow-600" />} color="bg-yellow-100" delay={400} />
             </section>
 
             <main className="bg-white p-6 rounded-2xl shadow-sm animate-fade-in" style={{ animationDelay: '500ms' }}>

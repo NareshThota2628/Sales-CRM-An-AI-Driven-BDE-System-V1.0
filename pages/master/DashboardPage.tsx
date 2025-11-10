@@ -13,34 +13,13 @@ import CareerPulseWidget from '../../components/bde/CareerPulseWidget';
 import { careerUpdatesDB } from '../../components/data/careerUpdatesDB';
 import BriefcaseIcon from '../../components/icons/BriefcaseIcon';
 
-const kpiData = [
-  { title: "Total ARR", value: "$4.8M", change: "+12.5% MoM", icon: <DollarSignIcon className="w-6 h-6 text-green-600" />, color: "bg-green-100", delay: 100 },
-  { title: "New Monthly Leads", value: "1,240", change: "+8.2% MoM", icon: <ZapIcon className="w-6 h-6 text-indigo-600" />, color: "bg-indigo-100", delay: 200 },
-  { title: "Overall Conversion Rate", value: "18.7%", change: "+1.1% MoM", icon: <TrendingUpIcon className="w-6 h-6 text-blue-600" />, color: "bg-blue-100", delay: 300 },
-  { title: "Pending Approvals", value: "12", change: "3 new today", icon: <FileCheckIcon className="w-6 h-6 text-yellow-600" />, color: "bg-yellow-100", delay: 400 },
-];
+const kpiData: { title: string; value: string; change: string; icon: React.ReactNode; color: string; delay: number }[] = [];
 
-const revenueData = [
-  { label: "Sep", value: 380000 },
-  { label: "Oct", value: 420000 },
-  { label: "Nov", value: 400000 },
-  { label: "Dec", value: 480000 },
-  { label: "Jan", value: 510000 },
-  { label: "Feb", value: 550000 },
-];
+const revenueData: { label: string; value: number }[] = [];
 
-const topBDEs = [
-    { name: 'Amélie Laurent', avatar: 'https://i.pravatar.cc/150?img=1', value: '$120,500', metric: 'Closed ARR (Q1)' },
-    { name: 'David Garcia', avatar: 'https://i.pravatar.cc/150?img=4', value: '18', metric: 'Conversions (Q1)' },
-    { name: 'Chloé Martin', avatar: 'https://i.pravatar.cc/150?img=3', value: '92%', metric: 'Qualification Rate' },
-];
+const topBDEs: { name: string; avatar: string; value: string; metric: string }[] = [];
 
-const activityFeed = [
-    { text: 'Amélie Laurent converted Quantum Leap ($120k ARR)', time: '2h ago' },
-    { text: '12 new leads from the AI in Sales webinar have been assigned', time: '8h ago' },
-    { text: 'David Garcia requested conversion for Solutions Inc.', time: '1 day ago' },
-    { text: 'System-wide conversion rate increased by 0.2%', time: '2 days ago' },
-];
+const activityFeed: { text: string; time: string }[] = [];
 
 type Status = 'todo' | 'inprogress' | 'completed';
 type Priority = 'Important' | 'Meh' | 'OK' | 'High Priority' | 'Not that important';
